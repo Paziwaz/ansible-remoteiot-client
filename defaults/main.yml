@@ -1,0 +1,16 @@
+---
+# defaults file for remoteiot-client
+setup_note: ""
+setup_group: ""
+
+reduce_usage: false
+alive_interval: 120
+
+schedule_upgrade: false
+schedule_name: "remoteiot upgrade"
+schedule_time:
+  minute: 0
+  hour: 2
+  day: *
+  month: *
+  weekday: *

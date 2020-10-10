@@ -1,0 +1,38 @@
+---
+# tasks file for remoteiot-client
+
+- name: Install JVM - RedHat-based
+  package:
+    name: java-1.8.0-openjdk*
+    state: present
+  when: ansible_facts['os_family'] == "RedHat"
+  register: result
+
+- name: Install JVM - Others
+  package:
+    name: openjdk-8-jre-headless
+    state: present
+  when: result is skipped
+
+- name: Setup
+  command: "curl -s -L 'https://remoteiot.com/install/install.sh' | sudo bash -s '{{ setup_key }}' '{{ setup_name }}' '{{ setup_note }}' '{{ setup_group }}'"
+
+- name: Reduce mobile data usage
+  lineinfile:
+    path: /etc/remoteiot.conf
+    state: present
+    regexp: "^AliveInterval="
+    line: "AliveInterval={{ alive_interval }}"
+  notify: Restart RemoteIoT
+  when: reduce_usage
+
+- name: Schedule RemoteIoT upgrade
+  cron:
+    name: "{{ schedule_name }}"
+    minute: "{{ schedule_time.minute }}"
+    hour: "{{ schedule_time.hour }}"
+    day: "{{ schedule_time.day }}"
+    month: "{{ schedule_time.month }}"
+    weekday: "{{ schedule_time.weekday }}"
+    job: "curl -s -L https://remoteiot.com/install/upgrade.sh | sudo -s bash"
+  when: schedule_upgrade
