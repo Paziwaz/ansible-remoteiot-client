@@ -1,5 +1,6 @@
 ---
 # handlers file for remoteiot-client
 - name: Restart RemoteIoT
-  service: remote-iot
-  state: restarted
+  systemd:
+    name: remote-iot
+    state: restarted

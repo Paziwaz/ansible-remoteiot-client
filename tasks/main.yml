@@ -14,8 +14,13 @@
     state: present
   when: result is skipped
 
+- name: Check if Service Exists
+  stat: path=/etc/init.d/remote-iot
+  register: service_status
+
 - name: Setup
-  command: "curl -s -L 'https://remoteiot.com/install/install.sh' | sudo bash -s '{{ setup_key }}' '{{ setup_name }}' '{{ setup_note }}' '{{ setup_group }}'"
+  shell: "curl -s -L 'https://remoteiot.com/install/install.sh' | sudo bash -s '{{ setup_key }}' '{{ setup_name }}' '{{ setup_note }}' '{{ setup_group }}'"
+  when: not service_status.stat.exists
 
 - name: Reduce mobile data usage
   lineinfile:
@@ -25,14 +30,3 @@
     line: "AliveInterval={{ alive_interval }}"
   notify: Restart RemoteIoT
   when: reduce_usage
-
-- name: Schedule RemoteIoT upgrade
-  cron:
-    name: "{{ schedule_name }}"
-    minute: "{{ schedule_time.minute }}"
-    hour: "{{ schedule_time.hour }}"
-    day: "{{ schedule_time.day }}"
-    month: "{{ schedule_time.month }}"
-    weekday: "{{ schedule_time.weekday }}"
-    job: "curl -s -L https://remoteiot.com/install/upgrade.sh | sudo -s bash"
-  when: schedule_upgrade
