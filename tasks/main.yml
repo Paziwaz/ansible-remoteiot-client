@@ -20,6 +20,7 @@
 
 - name: Setup
   shell: "curl -s -L 'https://remoteiot.com/install/install.sh' | sudo bash -s '{{ setup_key }}' '{{ setup_name }}' '{{ setup_note }}' '{{ setup_group }}'"
+  notify: Restart RemoteIoT
   when: not service_status.stat.exists
 
 - name: Reduce mobile data usage
