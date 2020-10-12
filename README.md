@@ -36,7 +36,7 @@ Minimalistic:
 ```
     - hosts: 192.168.0.50
       roles:
-         - { role: ansible-remoteiot-client, setup_key: example@gmail.com, setup_name: wdvaddjjkdloqpcz }
+         - { role: ansible-remoteiot-client, setup_key: 9JJWAS5A6789VHAS4PQD000314J8W743, setup_name: Sensor01 }
 ```
 With all options being used:  
 ```
