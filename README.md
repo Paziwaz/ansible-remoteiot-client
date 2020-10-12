@@ -27,8 +27,7 @@ Required:
 Optional:  
 - setup_note - additional information about a device for the RemoteIoT website
 - setup_group - device's group for the RemoteIoT website
-- reduce_usage (default: false) -
-- schedule_upgrade (default: false) -
+- reduce_usage (default: false) - will set alive interval value to 120
 
 
 Example Playbooks
@@ -43,7 +42,7 @@ With all options being used:
 ```
     - hosts: 192.168.0.50
       roles:
-         - { role: ansible-remoteiot-client, setup_key: 9JJWAS5A6789VHAS4PQD000314J8W743, setup_name: Sensor01 , setup_note: "Enviro Station - Living Room", setup_group: Sensors, reduce_usage: true, schedule_upgrade: true }
+         - { role: ansible-remoteiot-client, setup_key: 9JJWAS5A6789VHAS4PQD000314J8W743, setup_name: Sensor01 , setup_note: "Enviro Station - Living Room", setup_group: Sensors, reduce_usage: true }
 ```
 
 
